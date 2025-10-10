@@ -1,5 +1,6 @@
 import 'package:crafty_bay/features/auth/presentaion/screens/sign_up_screen.dart';
 import 'package:crafty_bay/features/auth/presentaion/widget/app_logo.dart';
+import 'package:crafty_bay/features/home/presentation/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -61,7 +62,10 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  void _onTapLoginButton() {}
+  void _onTapLoginButton() {
+    Navigator.pushNamedAndRemoveUntil(context, HomeScreen.name, (p) => false);
+  }
+
   void _onTapSignUpButton() {
     Navigator.pushNamed(context, SignUpScreen.name);
   }
