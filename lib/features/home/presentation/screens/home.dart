@@ -1,7 +1,9 @@
 import 'package:crafty_bay/app/assets_path.dart';
+import 'package:crafty_bay/features/home/presentation/controller/home_slide_controller.dart';
 import 'package:crafty_bay/features/home/presentation/widgets/app_bar_icon_button.dart';
 import 'package:crafty_bay/features/home/presentation/widgets/home_banner_slider.dart';
 import 'package:crafty_bay/features/shared/presentation/controller/main_nav_controller.dart';
+import 'package:crafty_bay/features/shared/presentation/widgets/center_circular_progress.dart';
 import 'package:crafty_bay/features/shared/presentation/widgets/product_card.dart';
 import 'package:crafty_bay/features/shared/presentation/widgets/product_categories_items.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +43,17 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 16),
               _buildSearchBar(),
               SizedBox(height: 16),
-              homeBannerSlider(),
+              GetBuilder<HomeSlideController>(
+                builder: (controller) {
+                  if (controller.getSliderInProgress) {
+                    return SizedBox(
+                      height: 180,
+                      child: CenterCircularProgress(),
+                    );
+                  }
+                  return homeBannerSlider(sliders: controller.sliders);
+                },
+              ),
               SizedBox(height: 16),
               _buildSetionHeader(
                 title: 'Categories',

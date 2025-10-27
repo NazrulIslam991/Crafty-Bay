@@ -2,6 +2,7 @@ import 'package:crafty_bay/app/setup_network_client.dart';
 import 'package:crafty_bay/features/auth/presentaion/controller/signin_controller.dart';
 import 'package:crafty_bay/features/auth/presentaion/controller/signup_controller.dart';
 import 'package:crafty_bay/features/auth/presentaion/controller/verify_otp_controller.dart';
+import 'package:crafty_bay/features/home/presentation/controller/home_slide_controller.dart';
 import 'package:crafty_bay/features/shared/presentation/controller/main_nav_controller.dart';
 import 'package:get/get.dart';
 
@@ -16,5 +17,6 @@ class ControllerBinding extends Bindings {
     Get.put(VerifyOtpController());
     Get.put(SignInController());
     Get.put(AuthController());
+    Get.put(HomeSlideController());
   }
 }

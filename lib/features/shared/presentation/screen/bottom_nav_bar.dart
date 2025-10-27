@@ -1,5 +1,6 @@
 import 'package:crafty_bay/features/cart/presentation/screens/carts_screen.dart';
 import 'package:crafty_bay/features/category/presentation/screens/category_list_screen.dart';
+import 'package:crafty_bay/features/home/presentation/controller/home_slide_controller.dart';
 import 'package:crafty_bay/features/home/presentation/screens/home.dart';
 import 'package:crafty_bay/features/shared/presentation/controller/main_nav_controller.dart';
 import 'package:crafty_bay/features/wishlist/presentation/screens/wishlist_screen.dart';
@@ -22,6 +23,13 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
     CartsScreen(),
     WishListScreen(),
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Get.find<HomeSlideController>().getHomeSliders();
+  }
 
   @override
   Widget build(BuildContext context) {

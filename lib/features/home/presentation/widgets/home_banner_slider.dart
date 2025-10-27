@@ -1,9 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:crafty_bay/app/app_color.dart';
+import 'package:crafty_bay/features/home/data/models/home_slider.dart';
 import 'package:flutter/material.dart';
 
 class homeBannerSlider extends StatefulWidget {
-  const homeBannerSlider({super.key});
+  const homeBannerSlider({super.key, required this.sliders});
+
+  final List<HomeSlider> sliders;
 
   @override
   State<homeBannerSlider> createState() => _homeBannerSliderState();
@@ -28,7 +31,7 @@ class _homeBannerSliderState extends State<homeBannerSlider> {
                   index; /////////////////////////////////////////////////
             },
           ),
-          items: [1, 2, 3, 4, 5].map((i) {
+          items: widget.sliders.map((slider) {
             return Builder(
               builder: (BuildContext context) {
                 return Container(
@@ -37,9 +40,12 @@ class _homeBannerSliderState extends State<homeBannerSlider> {
                   decoration: BoxDecoration(
                     color: AppColors.themeColor,
                     borderRadius: BorderRadius.circular(8),
+                    image: DecorationImage(
+                      image: NetworkImage(slider.photoUrl),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   alignment: Alignment.center,
-                  child: Text('text $i', style: TextStyle(fontSize: 16.0)),
                 );
               },
             );
@@ -51,7 +57,7 @@ class _homeBannerSliderState extends State<homeBannerSlider> {
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < widget.sliders.length; i++)
                   Container(
                     width: 12,
                     height: 12,
