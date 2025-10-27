@@ -1,24 +1,37 @@
+import 'package:crafty_bay/features/auth/data/models/verify_otp_request_model.dart';
+import 'package:crafty_bay/features/auth/presentaion/controller/verify_otp_controller.dart';
 import 'package:crafty_bay/features/auth/presentaion/screens/sign_in_screen.dart';
-import 'package:crafty_bay/features/auth/presentaion/widget/app_logo.dart';
+import 'package:crafty_bay/features/shared/presentation/widgets/center_circular_progress.dart';
+import 'package:crafty_bay/features/shared/presentation/widgets/snackbar_messege.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-class VerifyOTPScreen extends StatefulWidget {
-  const VerifyOTPScreen({super.key});
+import '../../../../app/controller/auth_controller.dart';
+import '../../../shared/presentation/screen/bottom_nav_bar.dart';
+import '../widget/app_logo.dart';
 
-  static const String name =
-      '/otp_screen'; /////////////////////////////////////////
+class VerifyOtpScreen extends StatefulWidget {
+  const VerifyOtpScreen({super.key, required this.email});
+
+  static const String name = '/verify-otp';
+
+  final String email;
 
   @override
-  State<VerifyOTPScreen> createState() => _VerifyOTPScreenState();
+  State<VerifyOtpScreen> createState() => _VerifyOtpScreenState();
 }
 
-class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
-  final TextEditingController _otpController = TextEditingController();
+class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
+  final TextEditingController _otpTEController = TextEditingController();
+
+  final VerifyOtpController _verifyOtpController =
+      Get.find<VerifyOtpController>();
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -26,44 +39,42 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                const SizedBox(height: 80),
+                const SizedBox(height: 48),
                 AppLogo(width: 100),
-                const SizedBox(height: 12),
-                Text("OTP_Headline".tr, style: textTheme.titleLarge),
-                Text("OTP_subHeadLine".tr, style: textTheme.bodySmall),
-                const SizedBox(height: 55),
-
+                const SizedBox(height: 24),
+                Text('Verify OTP', style: textTheme.titleLarge),
+                Text(
+                  'A 6 digits OTP has been sent to your email address',
+                  style: textTheme.bodyLarge?.copyWith(color: Colors.grey),
+                ),
+                const SizedBox(height: 24),
                 PinCodeTextField(
-                  length: 6,
+                  length: 4,
                   obscureText: false,
                   keyboardType: TextInputType.number,
+                  pinTheme: PinTheme(shape: PinCodeFieldShape.box),
                   animationType: AnimationType.fade,
-                  pinTheme: PinTheme(
-                    shape: PinCodeFieldShape.box,
-                    borderRadius: BorderRadius.circular(5),
-                    fieldHeight: 50,
-                    fieldWidth: 40,
-                    activeFillColor: Colors.white,
-                  ),
                   animationDuration: Duration(milliseconds: 300),
-                  backgroundColor: Colors.white,
-                  enableActiveFill: true,
-                  controller: _otpController,
-                  onCompleted: (v) {
-                    print("Completed");
-                  },
                   appContext: context,
+                  controller: _otpTEController,
                 ),
-
                 const SizedBox(height: 16),
-                FilledButton(
-                  onPressed: () => _onTapOTP_verify(),
-                  child: Text('OTP_Button'.tr),
+                GetBuilder<VerifyOtpController>(
+                  builder: (controller) {
+                    return Visibility(
+                      visible: controller.verifyOtpInProgress == false,
+                      replacement: CenterCircularProgress(),
+                      child: FilledButton(
+                        onPressed: _onTapVerifyButton,
+                        child: Text('Verify'),
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(height: 16),
                 TextButton(
-                  onPressed: () => _onTapBackSignInButton(),
-                  child: Text('BackTo_login'.tr),
+                  onPressed: _onTapBackToLoginButton,
+                  child: Text('Back to Login'),
                 ),
               ],
             ),
@@ -73,14 +84,39 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
     );
   }
 
-  void _onTapOTP_verify() {}
-  void _onTapBackSignInButton() {
+  void _onTapVerifyButton() {
+    // TODO: Validate form
+    _verifyOtp();
+  }
+
+  Future<void> _verifyOtp() async {
+    VerifyOtpRequestModel model = VerifyOtpRequestModel(
+      email: widget.email,
+      otp: _otpTEController.text,
+    );
+    final bool isSuccess = await _verifyOtpController.verifyOtp(model);
+    if (isSuccess) {
+      await Get.find<AuthController>().saveUserData(
+        _verifyOtpController.userModel!,
+        _verifyOtpController.accessToken!,
+      );
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        BottomNavBarScreen.name,
+        (predicate) => false,
+      );
+    } else {
+      showSnackBarMessege(context, _verifyOtpController.errorMessage!);
+    }
+  }
+
+  void _onTapBackToLoginButton() {
     Navigator.pushNamedAndRemoveUntil(context, SignInScreen.name, (p) => false);
   }
 
   @override
   void dispose() {
-    _otpController.dispose();
+    _otpTEController.dispose();
     super.dispose();
   }
 }

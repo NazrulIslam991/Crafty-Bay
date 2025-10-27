@@ -20,4 +20,8 @@ class MainNavController extends GetxController {
   void moveToCategory() {
     changeIndex(1);
   }
+
+  void moveToCart() {
+    changeIndex(2);
+  }
 }

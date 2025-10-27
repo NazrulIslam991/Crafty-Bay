@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 class BottomNavBarScreen extends StatefulWidget {
   const BottomNavBarScreen({super.key});
 
-  static const String name = '/bottom_nav_bar';
+  static const String name = '/bottom-nav-holder';
 
   @override
   State<BottomNavBarScreen> createState() => _BottomNavBarScreenState();

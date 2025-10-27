@@ -1,28 +1,36 @@
+import 'package:crafty_bay/features/auth/data/models/sign_up_request_model.dart';
+import 'package:crafty_bay/features/auth/presentaion/controller/signup_controller.dart';
+import 'package:crafty_bay/features/auth/presentaion/screens/sign_in_screen.dart';
 import 'package:crafty_bay/features/auth/presentaion/screens/verify_otp_screen.dart';
 import 'package:crafty_bay/features/auth/presentaion/widget/app_logo.dart';
+import 'package:crafty_bay/features/shared/presentation/widgets/center_circular_progress.dart';
+import 'package:crafty_bay/features/shared/presentation/widgets/snackbar_messege.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
-  static const String name =
-      '/sign_up'; /////////////////////////////////////////
+  static const String name = '/sign-up';
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
-  final TextEditingController _mobileController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _emailTEController = TextEditingController();
+  final TextEditingController _firstNameTEController = TextEditingController();
+  final TextEditingController _lastNameTEController = TextEditingController();
+  final TextEditingController _mobileTEController = TextEditingController();
+  final TextEditingController _addressTEController = TextEditingController();
+  final TextEditingController _passwordTEController = TextEditingController();
+
+  final SignUpController _signUpController = Get.find<SignUpController>();
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -32,54 +40,66 @@ class _SignUpScreenState extends State<SignUpScreen> {
               children: [
                 const SizedBox(height: 24),
                 AppLogo(width: 80),
-                const SizedBox(height: 12),
-                Text("SignUp_Headline".tr, style: textTheme.titleLarge),
-                Text("SignUp_subHeadLine".tr, style: textTheme.bodySmall),
-                const SizedBox(height: 25),
+                const SizedBox(height: 24),
+                Text('Create new account', style: textTheme.titleLarge),
+                Text(
+                  'Please enter your details for new account',
+                  style: textTheme.bodyLarge?.copyWith(color: Colors.grey),
+                ),
+                const SizedBox(height: 24),
                 TextFormField(
-                  decoration: InputDecoration(hintText: "Email".tr),
+                  controller: _emailTEController,
+                  keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
-                  controller: _emailController,
+                  decoration: InputDecoration(hintText: 'Email'),
                 ),
                 const SizedBox(height: 8),
                 TextFormField(
-                  decoration: InputDecoration(hintText: "First_Name".tr),
+                  controller: _firstNameTEController,
                   textInputAction: TextInputAction.next,
-                  controller: _firstNameController,
+                  decoration: InputDecoration(hintText: 'First name'),
                 ),
                 const SizedBox(height: 8),
                 TextFormField(
-                  decoration: InputDecoration(hintText: "Last_Name".tr),
+                  controller: _lastNameTEController,
                   textInputAction: TextInputAction.next,
-                  controller: _lastNameController,
+                  decoration: InputDecoration(hintText: 'Last name'),
                 ),
                 const SizedBox(height: 8),
                 TextFormField(
-                  decoration: InputDecoration(hintText: "Mobile".tr),
+                  controller: _mobileTEController,
                   textInputAction: TextInputAction.next,
-                  controller: _mobileController,
+                  keyboardType: TextInputType.phone,
+                  decoration: InputDecoration(hintText: 'Mobile'),
                 ),
                 const SizedBox(height: 8),
                 TextFormField(
-                  decoration: InputDecoration(hintText: "Address".tr),
+                  controller: _addressTEController,
                   textInputAction: TextInputAction.next,
-                  controller: _addressController,
+                  decoration: InputDecoration(hintText: 'Address'),
                 ),
                 const SizedBox(height: 8),
                 TextFormField(
-                  decoration: InputDecoration(hintText: "Password".tr),
-                  textInputAction: TextInputAction.done,
-                  controller: _passwordController,
+                  controller: _passwordTEController,
+                  decoration: InputDecoration(hintText: 'Password'),
                 ),
                 const SizedBox(height: 16),
-                FilledButton(
-                  onPressed: () => _onTapSignUpButton(),
-                  child: Text('SignUp_Button'.tr),
+                GetBuilder<SignUpController>(
+                  builder: (controller) {
+                    return Visibility(
+                      visible: controller.signUpInProgress == false,
+                      replacement: CenterCircularProgress(),
+                      child: FilledButton(
+                        onPressed: _onTapSignUpButton,
+                        child: Text('Sign Up'),
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(height: 16),
                 TextButton(
-                  onPressed: () => _onTapBackSignInButton(),
-                  child: Text('BackTo_login'.tr),
+                  onPressed: _onTapBackToLoginButton,
+                  child: Text('Back to Login'),
                 ),
               ],
             ),
@@ -90,21 +110,44 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void _onTapSignUpButton() {
-    Navigator.pushNamed(context, VerifyOTPScreen.name);
+    // TODO: Validate form
+    _signUp();
   }
 
-  void _onTapBackSignInButton() {
-    Navigator.pop(context);
+  Future<void> _signUp() async {
+    SignUpRequestModel model = SignUpRequestModel(
+      firstName: _firstNameTEController.text.trim(),
+      lastName: _lastNameTEController.text.trim(),
+      email: _emailTEController.text.trim(),
+      password: _passwordTEController.text,
+      city: _addressTEController.text.trim(),
+      phone: _mobileTEController.text.trim(),
+    );
+    final bool isSuccess = await _signUpController.signUp(model);
+    if (isSuccess) {
+      showSnackBarMessege(context, 'Sign up successful! Please login');
+      Navigator.pushNamed(
+        context,
+        VerifyOtpScreen.name,
+        arguments: _emailTEController.text.trim(),
+      );
+    } else {
+      showSnackBarMessege(context, _signUpController.errorMessage!);
+    }
+  }
+
+  void _onTapBackToLoginButton() {
+    Navigator.pushNamed(context, SignInScreen.name);
   }
 
   @override
   void dispose() {
-    _emailController.dispose();
-    _firstNameController.dispose();
-    _lastNameController.dispose();
-    _mobileController.dispose();
-    _addressController.dispose();
-    _passwordController.dispose();
+    _emailTEController.dispose();
+    _firstNameTEController.dispose();
+    _lastNameTEController.dispose();
+    _mobileTEController.dispose();
+    _addressTEController.dispose();
+    _passwordTEController.dispose();
     super.dispose();
   }
 }

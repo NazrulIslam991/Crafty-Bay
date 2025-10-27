@@ -1,8 +1,14 @@
+import 'package:crafty_bay/features/auth/data/models/sign_in_request_model.dart';
+import 'package:crafty_bay/features/auth/presentaion/controller/signin_controller.dart';
 import 'package:crafty_bay/features/auth/presentaion/screens/sign_up_screen.dart';
 import 'package:crafty_bay/features/auth/presentaion/widget/app_logo.dart';
-import 'package:crafty_bay/features/home/presentation/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../../app/controller/auth_controller.dart';
+import '../../../shared/presentation/screen/bottom_nav_bar.dart';
+import '../../../shared/presentation/widgets/center_circular_progress.dart';
+import '../../../shared/presentation/widgets/snackbar_messege.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -17,6 +23,7 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final SignInController _logInController = Get.find<SignInController>();
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -45,9 +52,17 @@ class _SignInScreenState extends State<SignInScreen> {
                   controller: _passwordController,
                 ),
                 const SizedBox(height: 16),
-                FilledButton(
-                  onPressed: () => _onTapLoginButton(),
-                  child: Text('Login_Button'.tr),
+                GetBuilder<SignInController>(
+                  builder: (_) {
+                    return Visibility(
+                      visible: _logInController.logInProgress == false,
+                      replacement: CenterCircularProgress(),
+                      child: FilledButton(
+                        onPressed: () => _onTapSigninButton(),
+                        child: Text('Login_Button'.tr),
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(height: 16),
                 TextButton(
@@ -62,8 +77,29 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  void _onTapLoginButton() {
-    Navigator.pushNamedAndRemoveUntil(context, HomeScreen.name, (p) => false);
+  void _onTapSigninButton() {
+    _verifyOtp();
+  }
+
+  Future<void> _verifyOtp() async {
+    SignInRequestModel model = SignInRequestModel(
+      email: _emailController.text.trim(),
+      password: _passwordController.text,
+    );
+    bool isSuccess = await _logInController.logIn(model);
+    if (isSuccess) {
+      await Get.find<AuthController>().saveUserData(
+        _logInController.userModel!,
+        _logInController.accessToken!,
+      );
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        BottomNavBarScreen.name,
+        (predicate) => false,
+      );
+    } else {
+      showSnackBarMessege(context, _logInController.errorMessage!);
+    }
   }
 
   void _onTapSignUpButton() {

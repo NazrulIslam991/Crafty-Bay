@@ -1,20 +1,20 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:logger/logger.dart';
 
 import '../model/network_respons.dart';
 
 class NetworkCaller {
-  String _defaultErrorMessage = 'Something went wrong';
-  String _unAuthorizeMessage = 'Un-authorized token';
-
-  final VoidCallback onUnAutorize;
-  final String accessToken;
+  final String _defaultErrorMessage = 'Something went wrong';
+  final String _unAuthorizeMessage = 'Un-authorized token';
   final Logger _logger = Logger();
 
-  NetworkCaller({required this.accessToken, required this.onUnAutorize});
+  final VoidCallback onUnAuthorize;
+  final String accessToken;
+
+  NetworkCaller({required this.onUnAuthorize, required this.accessToken});
 
   Future<NetworkResponse> getRequest({required String url}) async {
     try {
@@ -33,7 +33,7 @@ class NetworkCaller {
           body: decodedJson,
         );
       } else if (response.statusCode == 401) {
-        onUnAutorize();
+        onUnAuthorize();
         return NetworkResponse(
           isSuccess: false,
           statusCode: response.statusCode,
@@ -58,7 +58,7 @@ class NetworkCaller {
 
   Future<NetworkResponse> postRequest({
     required String url,
-    Map<String, String>? body,
+    Map<String, dynamic>? body,
     bool isFromLogin = false,
   }) async {
     try {
@@ -77,8 +77,9 @@ class NetworkCaller {
       );
       _logResponse(url, response);
 
-      if (response.statusCode == 200) {
-        final decodedJson = jsonDecode(response.body);
+      final decodedJson = jsonDecode(response.body);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
         return NetworkResponse(
           isSuccess: true,
           statusCode: response.statusCode,
@@ -86,12 +87,13 @@ class NetworkCaller {
         );
       } else if (response.statusCode == 401) {
         if (isFromLogin == false) {
-          onUnAutorize();
+          onUnAuthorize();
         }
         return NetworkResponse(
           isSuccess: false,
           statusCode: response.statusCode,
           errorMessage: _unAuthorizeMessage,
+          body: decodedJson,
         );
       } else {
         final decodedJson = jsonDecode(response.body);
@@ -99,6 +101,7 @@ class NetworkCaller {
           isSuccess: false,
           statusCode: response.statusCode,
           errorMessage: decodedJson['data'] ?? _defaultErrorMessage,
+          body: decodedJson,
         );
       }
     } catch (e) {
@@ -140,7 +143,7 @@ class NetworkCaller {
         );
       } else if (response.statusCode == 401) {
         if (isFromLogin == false) {
-          onUnAutorize();
+          onUnAuthorize();
         }
         return NetworkResponse(
           isSuccess: false,
@@ -194,7 +197,7 @@ class NetworkCaller {
         );
       } else if (response.statusCode == 401) {
         if (isFromLogin == false) {
-          onUnAutorize();
+          onUnAuthorize();
         }
         return NetworkResponse(
           isSuccess: false,
@@ -239,8 +242,9 @@ class NetworkCaller {
       );
       _logResponse(url, response);
 
+      final decodedJson = jsonDecode(response.body);
+
       if (response.statusCode == 200) {
-        final decodedJson = jsonDecode(response.body);
         return NetworkResponse(
           isSuccess: true,
           statusCode: response.statusCode,
@@ -248,12 +252,13 @@ class NetworkCaller {
         );
       } else if (response.statusCode == 401) {
         if (isFromLogin == false) {
-          onUnAutorize();
+          onUnAuthorize();
         }
         return NetworkResponse(
           isSuccess: false,
           statusCode: response.statusCode,
           errorMessage: _unAuthorizeMessage,
+          body: decodedJson,
         );
       } else {
         final decodedJson = jsonDecode(response.body);
@@ -261,6 +266,7 @@ class NetworkCaller {
           isSuccess: false,
           statusCode: response.statusCode,
           errorMessage: decodedJson['data'] ?? _defaultErrorMessage,
+          body: decodedJson,
         );
       }
     } catch (e) {
@@ -274,7 +280,7 @@ class NetworkCaller {
 
   void _logRequest(
     String url,
-    Map<String, String>? body,
+    Map<String, dynamic>? body,
     Map<String, String>? headers,
   ) {
     _logger.i(

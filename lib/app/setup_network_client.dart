@@ -4,7 +4,7 @@ import 'package:crafty_bay/features/auth/presentaion/screens/sign_in_screen.dart
 import 'package:flutter/cupertino.dart';
 
 NetworkCaller SetUpNetworkClient() {
-  return NetworkCaller(accessToken: '', onUnAutorize: _onUnAuthorized);
+  return NetworkCaller(onUnAuthorize: _onUnAuthorized, accessToken: '');
 }
 
 Future<void> _onUnAuthorized() async {
