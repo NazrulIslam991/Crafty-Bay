@@ -2,6 +2,7 @@ import 'package:crafty_bay/features/cart/presentation/screens/carts_screen.dart'
 import 'package:crafty_bay/features/category/presentation/screens/category_list_screen.dart';
 import 'package:crafty_bay/features/home/presentation/controller/home_slide_controller.dart';
 import 'package:crafty_bay/features/home/presentation/screens/home.dart';
+import 'package:crafty_bay/features/shared/presentation/controller/category_controller.dart';
 import 'package:crafty_bay/features/shared/presentation/controller/main_nav_controller.dart';
 import 'package:crafty_bay/features/wishlist/presentation/screens/wishlist_screen.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,7 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
     // TODO: implement initState
     super.initState();
     Get.find<HomeSlideController>().getHomeSliders();
+    Get.find<CategoryController>().getCategoryList();
   }
 
   @override

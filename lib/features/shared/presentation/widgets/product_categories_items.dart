@@ -2,8 +2,11 @@ import 'package:crafty_bay/app/app_color.dart';
 import 'package:crafty_bay/features/products/presentation/screens/product_list_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../data/category_model.dart';
+
 class Product_Categories_Items extends StatelessWidget {
-  const Product_Categories_Items({super.key});
+  const Product_Categories_Items({super.key, required this.categoryModel});
+  final CategoryModel categoryModel;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +15,7 @@ class Product_Categories_Items extends StatelessWidget {
         Navigator.pushNamed(
           context,
           ProductListScreen.name,
-          arguments: "Electronic",
+          arguments: categoryModel.title,
         );
       },
       child: Column(
@@ -24,10 +27,17 @@ class Product_Categories_Items extends StatelessWidget {
               color: AppColors.themeColor.withOpacity(0.15),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(Icons.computer, size: 32, color: AppColors.themeColor),
+            child: Image.network(
+              categoryModel.icon,
+              height: 32,
+              width: 32,
+              errorBuilder: (_, __, ___) {
+                return Icon(Icons.error_outline, size: 32);
+              },
+            ),
           ),
           Text(
-            "Electronics",
+            categoryModel.title,
             style: Theme.of(
               context,
             ).textTheme.bodyLarge?.copyWith(color: AppColors.themeColor),

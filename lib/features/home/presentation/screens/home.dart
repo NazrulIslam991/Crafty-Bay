@@ -2,6 +2,7 @@ import 'package:crafty_bay/app/assets_path.dart';
 import 'package:crafty_bay/features/home/presentation/controller/home_slide_controller.dart';
 import 'package:crafty_bay/features/home/presentation/widgets/app_bar_icon_button.dart';
 import 'package:crafty_bay/features/home/presentation/widgets/home_banner_slider.dart';
+import 'package:crafty_bay/features/shared/presentation/controller/category_controller.dart';
 import 'package:crafty_bay/features/shared/presentation/controller/main_nav_controller.dart';
 import 'package:crafty_bay/features/shared/presentation/widgets/center_circular_progress.dart';
 import 'package:crafty_bay/features/shared/presentation/widgets/product_card.dart';
@@ -81,16 +82,27 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildCategoriesList() {
     return SizedBox(
       height: 100,
-      child: ListView.separated(
-        itemCount: 10,
-        primary: false,
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          return Product_Categories_Items();
-        },
-        separatorBuilder: (context, index) {
-          return SizedBox(width: 10);
+      child: GetBuilder<CategoryController>(
+        builder: (controller) {
+          if (controller.isInitialLoading) {
+            return CenterCircularProgress();
+          }
+          return ListView.separated(
+            itemCount: controller.categoryList.length > 10
+                ? 10
+                : controller.categoryList.length,
+            primary: false,
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return Product_Categories_Items(
+                categoryModel: controller.categoryList[index],
+              );
+            },
+            separatorBuilder: (context, index) {
+              return SizedBox(width: 10);
+            },
+          );
         },
       ),
     );

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../../../../app/urls.dart';
 import '../../../../core/model/network_respons.dart';
 import '../../../../core/services/network_caller.dart';
-import '../../../shared/data/models.dart';
+import '../../../shared/data/user_model.dart';
 
 class SignInController extends GetxController {
   bool _LogInProgress = false;
