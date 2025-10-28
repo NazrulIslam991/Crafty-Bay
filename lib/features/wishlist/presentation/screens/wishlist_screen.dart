@@ -1,4 +1,3 @@
-import 'package:crafty_bay/features/shared/presentation/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -29,7 +28,7 @@ class _WishListScreenState extends State<WishListScreen> {
             //crossAxisSpacing: 8,
           ),
           itemBuilder: (context, index) {
-            return FittedBox(child: ProductCard());
+            // return FittedBox(child: ProductCard());
           },
           itemCount: 10,
         ),

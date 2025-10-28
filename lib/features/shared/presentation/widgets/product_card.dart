@@ -1,17 +1,23 @@
 import 'package:crafty_bay/app/app_color.dart';
-import 'package:crafty_bay/app/assets_path.dart';
 import 'package:crafty_bay/app/constants/constants.dart';
 import 'package:crafty_bay/features/products/presentation/screens/product_details_screen.dart';
+import 'package:crafty_bay/features/shared/data/product_model.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({super.key});
+  const ProductCard({super.key, required this.productModel});
+
+  final ProductModel productModel;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, ProductDetailsScreen.name);
+        Navigator.pushNamed(
+          context,
+          ProductDetailsScreen.name,
+          arguments: productModel.id,
+        );
       },
       child: Card(
         color: Colors.white,
@@ -30,10 +36,17 @@ class ProductCard extends StatelessWidget {
                     topRight: Radius.circular(8),
                   ),
                 ),
-                child: Image.asset(
-                  AssetPaths.dummyShoe,
+                child: Image.network(
+                  productModel.photos.firstOrNull ?? '',
                   height: 80,
                   width: 140,
+                  errorBuilder: (_, __, ___) {
+                    return Icon(
+                      Icons.error_outline,
+                      size: 48,
+                      color: Colors.grey,
+                    );
+                  },
                 ),
               ),
               Padding(
@@ -43,7 +56,7 @@ class ProductCard extends StatelessWidget {
                   spacing: 4,
                   children: [
                     Text(
-                      "Nike Air Jordan A45GH",
+                      productModel.title,
                       maxLines: 1,
                       style: TextStyle(overflow: TextOverflow.ellipsis),
                     ),
@@ -51,7 +64,7 @@ class ProductCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '${takaSign} 120',
+                          '${takaSign}${[productModel.currentPrice]}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: AppColors.themeColor,
@@ -60,7 +73,7 @@ class ProductCard extends StatelessWidget {
                         Wrap(
                           children: [
                             Icon(Icons.star, size: 18, color: Colors.amber),
-                            Text('4.2'),
+                            Text(productModel.rating.toString()),
                           ],
                         ),
                         Card(

@@ -1,59 +1,59 @@
 import 'package:crafty_bay/core/model/network_respons.dart';
 import 'package:crafty_bay/core/services/network_caller.dart';
-import 'package:crafty_bay/features/shared/data/category_model.dart';
+import 'package:crafty_bay/features/shared/data/product_model.dart';
 import 'package:get/get.dart';
 
 import '../../../../app/urls.dart';
 
-class CategoryController extends GetxController {
+class ProductListController extends GetxController {
   int _currentPage = 0;
 
   int? _lastPageNo;
 
   final int _pageSize = 40;
 
-  bool _getCategoryInProgress = false;
+  bool _getProductListInProgress = false;
 
   bool _isInitialLoading = false;
 
-  List<CategoryModel> _categoryList = [];
+  List<ProductModel> _productList = [];
 
   String? _errorMessage;
 
-  bool get getCategoryInProgress => _getCategoryInProgress;
+  bool get getProductInProgress => _getProductListInProgress;
 
   bool get isInitialLoading => _isInitialLoading;
 
-  List<CategoryModel> get categoryList => _categoryList;
+  List<ProductModel> get productList => _productList;
 
   String? get errorMessage => _errorMessage;
 
-  Future<bool> getCategoryList() async {
+  Future<bool> getProductListByCategories(String categoryId) async {
     bool isSuccess = false;
 
     if (_currentPage > (_lastPageNo ?? 1)) {
       return false;
     }
     if (_currentPage == 0) {
-      _categoryList.clear();
+      _productList.clear();
       _isInitialLoading = true;
     } else {
-      _getCategoryInProgress = true;
+      _getProductListInProgress = true;
     }
     update();
 
     _currentPage++;
 
     final NetworkResponse response = await Get.find<NetworkCaller>().getRequest(
-      url: Urls.categoryList(_currentPage, _pageSize),
+      url: Urls.productList(_currentPage, _pageSize, categoryId),
     );
     if (response.isSuccess) {
       _lastPageNo = response.body!['data']['last_page'];
-      List<CategoryModel> list = [];
+      List<ProductModel> list = [];
       for (Map<String, dynamic> jsonData in response.body!['data']['results']) {
-        list.add(CategoryModel.fromJson(jsonData));
+        list.add(ProductModel.fromJson(jsonData));
       }
-      _categoryList.addAll(list);
+      _productList.addAll(list);
       isSuccess = true;
       _errorMessage = null;
     } else {
@@ -63,15 +63,15 @@ class CategoryController extends GetxController {
     if (_isInitialLoading) {
       _isInitialLoading = false;
     } else {
-      _getCategoryInProgress = false;
+      _getProductListInProgress = false;
     }
 
     update();
     return isSuccess;
   }
 
-  Future<void> refreshCategoryList() async {
+  Future<void> refreshProductList(String categotyId) async {
     _currentPage = 0;
-    getCategoryList();
+    getProductListByCategories(categotyId);
   }
 }

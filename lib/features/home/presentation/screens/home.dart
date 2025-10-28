@@ -5,7 +5,6 @@ import 'package:crafty_bay/features/home/presentation/widgets/home_banner_slider
 import 'package:crafty_bay/features/shared/presentation/controller/category_controller.dart';
 import 'package:crafty_bay/features/shared/presentation/controller/main_nav_controller.dart';
 import 'package:crafty_bay/features/shared/presentation/widgets/center_circular_progress.dart';
-import 'package:crafty_bay/features/shared/presentation/widgets/product_card.dart';
 import 'package:crafty_bay/features/shared/presentation/widgets/product_categories_items.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -140,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: [1, 2, 3, 4, 5, 6].map((e) => ProductCard()).toList(),
+        //children: [1, 2, 3, 4, 5, 6].map((e) => ProductCard()).toList(),
       ),
     );
   }
@@ -149,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: [1, 2, 3, 4, 5, 6].map((e) => ProductCard()).toList(),
+        //children: [1, 2, 3, 4, 5, 6].map((e) => ProductCard()).toList(),
       ),
     );
   }
@@ -158,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: [1, 2, 3, 4, 5, 6].map((e) => ProductCard()).toList(),
+        //children: [1, 2, 3, 4, 5, 6].map((e) => ProductCard()).toList(),
       ),
     );
   }

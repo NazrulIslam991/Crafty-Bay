@@ -62,6 +62,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                         _categoryCotroller.refreshCategoryList();
                       },
                       child: GridView.builder(
+                        controller: _scrollController,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 4,
                           crossAxisSpacing: 8,
