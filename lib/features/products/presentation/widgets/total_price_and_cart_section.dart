@@ -46,7 +46,7 @@ class _TotalPriceAndCartActionState extends State<TotalPriceAndCartAction> {
                 ),
               ),
               Text(
-                "${takaSign}100",
+                "${takaSign}${widget.productModel.currentPrice}",
                 style: textTheme.titleMedium?.copyWith(
                   color: AppColors.themeColor,
                 ),

@@ -4,6 +4,7 @@ class Urls {
   static const String loginUrl = '$_baseUrl/auth/login';
   static const String verifyOtpUrl = '$_baseUrl/auth/verify-otp';
   static const String homeSliderUrl = '$_baseUrl/slides';
+  static const String CartListUrl = '$_baseUrl/cart';
   static const String addToCartUrl = '$_baseUrl/cart';
   static String categoryList(int pageNo, int pageSize) =>
       '$_baseUrl/categories?count=$pageSize&page=$pageNo';

@@ -1,6 +1,8 @@
 import 'package:crafty_bay/app/app_color.dart';
 import 'package:crafty_bay/app/constants/constants.dart';
+import 'package:crafty_bay/features/cart/presentation/controller/cart_list_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class TotalPriceAndCheckoutSection extends StatelessWidget {
   @override
@@ -28,11 +30,15 @@ class TotalPriceAndCheckoutSection extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              Text(
-                "${takaSign}100",
-                style: textTheme.titleMedium?.copyWith(
-                  color: AppColors.themeColor,
-                ),
+              GetBuilder<CartListController>(
+                builder: (controller) {
+                  return Text(
+                    "${takaSign}${controller.totalPrice}",
+                    style: textTheme.titleMedium?.copyWith(
+                      color: AppColors.themeColor,
+                    ),
+                  );
+                },
               ),
             ],
           ),
