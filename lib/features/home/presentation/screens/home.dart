@@ -2,6 +2,7 @@ import 'package:crafty_bay/app/assets_path.dart';
 import 'package:crafty_bay/features/home/presentation/controller/home_slide_controller.dart';
 import 'package:crafty_bay/features/home/presentation/widgets/app_bar_icon_button.dart';
 import 'package:crafty_bay/features/home/presentation/widgets/home_banner_slider.dart';
+import 'package:crafty_bay/features/products/presentation/controllers/product_list_controller.dart';
 import 'package:crafty_bay/features/shared/presentation/controller/category_controller.dart';
 import 'package:crafty_bay/features/shared/presentation/controller/main_nav_controller.dart';
 import 'package:crafty_bay/features/shared/presentation/widgets/center_circular_progress.dart';
@@ -10,16 +11,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
+import '../../../shared/presentation/widgets/product_card.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
-  static const String name = '/home'; /////////////////////////////////////////
+  static const String name = '/home';
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final CategoryController _categoryCotroller = Get.find<CategoryController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,8 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
               _buildSetionHeader(
                 title: 'Categories',
                 onTapSeeAll: () {
-                  Get.find<MainNavController>()
-                      .moveToCategory(); /////////////////////////////////////
+                  Get.find<MainNavController>().moveToCategory();
                 },
               ),
 
@@ -136,28 +140,107 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildNewProductList() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        //children: [1, 2, 3, 4, 5, 6].map((e) => ProductCard()).toList(),
+    final ProductListController _productController = Get.put(
+      ProductListController(),
+    );
+
+    if (_productController.productList.isEmpty) {
+      _productController.getAllProducts();
+    }
+
+    return SizedBox(
+      height: 200,
+      child: GetBuilder<ProductListController>(
+        builder: (controller) {
+          if (controller.isInitialLoading) {
+            return CenterCircularProgress();
+          }
+
+          if (controller.productList.isEmpty) {
+            return Center(child: Text("No products found"));
+          }
+
+          return ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: controller.productList.length > 6
+                ? 6
+                : controller.productList.length,
+            itemBuilder: (context, index) {
+              return ProductCard(productModel: controller.productList[index]);
+            },
+          );
+        },
       ),
     );
   }
 
   Widget _buildSpecialProductList() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        //children: [1, 2, 3, 4, 5, 6].map((e) => ProductCard()).toList(),
+    final ProductListController _productController = Get.put(
+      ProductListController(),
+    );
+
+    if (_productController.productList.isEmpty) {
+      _productController.getAllProducts();
+    }
+
+    return SizedBox(
+      height: 200,
+      child: GetBuilder<ProductListController>(
+        builder: (controller) {
+          if (controller.isInitialLoading) {
+            return CenterCircularProgress();
+          }
+
+          if (controller.productList.isEmpty) {
+            return Center(child: Text("No products found"));
+          }
+
+          return ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: controller.productList.length > 6
+                ? 6
+                : controller.productList.length,
+            itemBuilder: (context, index) {
+              return ProductCard(productModel: controller.productList[index]);
+            },
+          );
+        },
       ),
     );
   }
 
   Widget _buildPopularProductList() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        //children: [1, 2, 3, 4, 5, 6].map((e) => ProductCard()).toList(),
+    final ProductListController _productController = Get.put(
+      ProductListController(),
+    );
+
+    // প্রথমবার fetch করার জন্য
+    if (_productController.productList.isEmpty) {
+      _productController.getAllProducts();
+    }
+
+    return SizedBox(
+      height: 200,
+      child: GetBuilder<ProductListController>(
+        builder: (controller) {
+          if (controller.isInitialLoading) {
+            return CenterCircularProgress();
+          }
+
+          if (controller.productList.isEmpty) {
+            return Center(child: Text("No products found"));
+          }
+
+          return ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: controller.productList.length > 6
+                ? 6
+                : controller.productList.length,
+            itemBuilder: (context, index) {
+              return ProductCard(productModel: controller.productList[index]);
+            },
+          );
+        },
       ),
     );
   }

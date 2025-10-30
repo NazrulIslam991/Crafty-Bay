@@ -1,5 +1,6 @@
 import 'package:crafty_bay/features/cart/data/model/cart_item_model.dart';
 import 'package:crafty_bay/features/cart/presentation/controller/cart_list_controller.dart';
+import 'package:crafty_bay/features/shared/presentation/widgets/center_circular_progress.dart';
 import 'package:crafty_bay/features/shared/presentation/widgets/incre_decre_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -61,9 +62,16 @@ class CartItem extends StatelessWidget {
                           ],
                         ),
                       ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.delete_forever_outlined),
+                      Visibility(
+                        visible: cartItemModel.quantity > 0,
+                        replacement: CenterCircularProgress(),
+                        child: IconButton(
+                          onPressed: () => _deleteCartItem(cartItemModel.id),
+                          icon: Icon(
+                            Icons.delete_forever_outlined,
+                            color: Colors.redAccent,
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -93,5 +101,9 @@ class CartItem extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _deleteCartItem(String cartItemId) async {
+    await Get.find<CartListController>().deleteCartItem(cartItemId);
   }
 }

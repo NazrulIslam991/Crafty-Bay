@@ -221,11 +221,7 @@ class NetworkCaller {
     }
   }
 
-  Future<NetworkResponse> deleteRequest({
-    required String url,
-    Map<String, String>? body,
-    bool isFromLogin = false,
-  }) async {
+  Future<NetworkResponse> deleteRequest({required String url}) async {
     try {
       Uri uri = Uri.parse(url);
 
@@ -234,12 +230,8 @@ class NetworkCaller {
         'token': accessToken(),
       };
 
-      _logRequest(url, body, headers);
-      Response response = await delete(
-        uri,
-        headers: headers,
-        body: jsonEncode(body),
-      );
+      _logRequest(url, null, headers);
+      Response response = await delete(uri, headers: headers);
       _logResponse(url, response);
 
       final decodedJson = jsonDecode(response.body);
@@ -251,21 +243,18 @@ class NetworkCaller {
           body: decodedJson,
         );
       } else if (response.statusCode == 401) {
-        if (isFromLogin == false) {
-          onUnAuthorize();
-        }
+        onUnAuthorize();
         return NetworkResponse(
           isSuccess: false,
           statusCode: response.statusCode,
-          errorMessage: _unAuthorizeMessage,
+          errorMessage: 'Un-authorized token',
           body: decodedJson,
         );
       } else {
-        final decodedJson = jsonDecode(response.body);
         return NetworkResponse(
           isSuccess: false,
           statusCode: response.statusCode,
-          errorMessage: decodedJson['data'] ?? _defaultErrorMessage,
+          errorMessage: decodedJson['data'] ?? 'Something went wrong',
           body: decodedJson,
         );
       }

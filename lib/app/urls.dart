@@ -13,4 +13,7 @@ class Urls {
 
   static String prouctDetailsUrl(String productId) =>
       '$_baseUrl/products/id/$productId';
+
+  static String deleteCartUrl(String cartItemId) =>
+      '$_baseUrl/cart/$cartItemId';
 }
