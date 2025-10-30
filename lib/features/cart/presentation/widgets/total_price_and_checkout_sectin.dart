@@ -2,6 +2,10 @@ import 'package:crafty_bay/app/app_color.dart';
 import 'package:crafty_bay/app/constants/constants.dart';
 import 'package:crafty_bay/features/cart/presentation/controller/cart_list_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sslcommerz/model/SSLCSdkType.dart';
+import 'package:flutter_sslcommerz/model/SSLCommerzInitialization.dart';
+import 'package:flutter_sslcommerz/model/SSLCurrencyType.dart';
+import 'package:flutter_sslcommerz/sslcommerz.dart';
 import 'package:get/get.dart';
 
 class TotalPriceAndCheckoutSection extends StatelessWidget {
@@ -44,10 +48,51 @@ class TotalPriceAndCheckoutSection extends StatelessWidget {
           ),
           SizedBox(
             width: 120,
-            child: FilledButton(onPressed: () {}, child: Text("Checkout")),
+            child: GetBuilder<CartListController>(
+              builder: (controller) {
+                return FilledButton(
+                  onPressed: () {
+                    if (controller.totalPrice > 0) {
+                      sslCommerez(controller.totalPrice.toDouble());
+                    } else {
+                      Get.snackbar('Error', 'Your cart is empty!');
+                    }
+                  },
+                  child: const Text("Checkout"),
+                );
+              },
+            ),
           ),
         ],
       ),
     );
+  }
+}
+
+Future<void> sslCommerez(double totalPrice) async {
+  Sslcommerz sslcommerz = Sslcommerz(
+    initializer: SSLCommerzInitialization(
+      multi_card_name: "visa,master,bkash",
+      currency: SSLCurrencyType.BDT,
+      product_category: "Digital Product",
+      sdkType: SSLCSdkType.TESTBOX,
+      store_id: "bikre690364da94fdf",
+      store_passwd: "bikre690364da94fdf@ssl",
+      total_amount: totalPrice,
+      tran_id: "TestTRX001",
+    ),
+  );
+
+  final response = await sslcommerz.payNow();
+
+  if (response.status == 'VALID') {
+    print('Payment completed,');
+    print(response.tranDate);
+  }
+  if (response.status == 'Closed') {
+    print('Payment Closed');
+  }
+  if (response.status == 'FAILED') {
+    print('Payment failed');
   }
 }
