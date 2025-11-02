@@ -4,6 +4,7 @@ import 'package:crafty_bay/features/auth/presentaion/controller/signup_controlle
 import 'package:crafty_bay/features/auth/presentaion/controller/verify_otp_controller.dart';
 import 'package:crafty_bay/features/cart/presentation/controller/cart_list_controller.dart';
 import 'package:crafty_bay/features/home/presentation/controller/home_slide_controller.dart';
+import 'package:crafty_bay/features/home/presentation/controller/prodduct_type_controller.dart';
 import 'package:crafty_bay/features/shared/presentation/controller/category_controller.dart';
 import 'package:crafty_bay/features/shared/presentation/controller/main_nav_controller.dart';
 import 'package:get/get.dart';
@@ -22,5 +23,8 @@ class ControllerBinding extends Bindings {
     Get.put(HomeSlideController());
     Get.put(CategoryController());
     Get.put(CartListController());
+    Get.put(ProductTypeController(tag: "popular"), tag: "popular");
+    Get.put(ProductTypeController(tag: "new"), tag: "new");
+    Get.put(ProductTypeController(tag: "special"), tag: "special");
   }
 }

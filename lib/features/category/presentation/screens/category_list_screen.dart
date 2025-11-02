@@ -17,7 +17,6 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
   final CategoryController _categoryCotroller = Get.find<CategoryController>();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollController.addListener(_loadMore);

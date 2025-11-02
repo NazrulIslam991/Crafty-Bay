@@ -2,7 +2,7 @@ import 'package:crafty_bay/app/assets_path.dart';
 import 'package:crafty_bay/features/home/presentation/controller/home_slide_controller.dart';
 import 'package:crafty_bay/features/home/presentation/widgets/app_bar_icon_button.dart';
 import 'package:crafty_bay/features/home/presentation/widgets/home_banner_slider.dart';
-import 'package:crafty_bay/features/products/presentation/controllers/product_list_controller.dart';
+import 'package:crafty_bay/features/products/presentation/screens/product_types_list_screen.dart';
 import 'package:crafty_bay/features/shared/presentation/controller/category_controller.dart';
 import 'package:crafty_bay/features/shared/presentation/controller/main_nav_controller.dart';
 import 'package:crafty_bay/features/shared/presentation/widgets/center_circular_progress.dart';
@@ -12,6 +12,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../../shared/presentation/widgets/product_card.dart';
+import '../controller/prodduct_type_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,6 +25,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final CategoryController _categoryCotroller = Get.find<CategoryController>();
+  final ProductTypeController _newController = Get.find(tag: "new");
+  final ProductTypeController _specialController = Get.find(tag: "special");
+  final ProductTypeController _popularController = Get.find(tag: "popular");
 
   @override
   Widget build(BuildContext context) {
@@ -69,11 +73,44 @@ class _HomeScreenState extends State<HomeScreen> {
 
               _buildCategoriesList(),
 
-              _buildSetionHeader(title: 'New', onTapSeeAll: () {}),
+              _buildSetionHeader(
+                title: 'New',
+                onTapSeeAll: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => ProductTypeListScreen(productType: "new"),
+                    ),
+                  );
+                },
+              ),
               _buildNewProductList(),
-              _buildSetionHeader(title: 'Special', onTapSeeAll: () {}),
+              _buildSetionHeader(
+                title: 'Special',
+                onTapSeeAll: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) =>
+                          ProductTypeListScreen(productType: "special"),
+                    ),
+                  );
+                },
+              ),
+
               _buildSpecialProductList(),
-              _buildSetionHeader(title: 'Popular', onTapSeeAll: () {}),
+              _buildSetionHeader(
+                title: 'Popular',
+                onTapSeeAll: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) =>
+                          ProductTypeListScreen(productType: "popular"),
+                    ),
+                  );
+                },
+              ),
               _buildPopularProductList(),
             ],
           ),
@@ -140,33 +177,28 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildNewProductList() {
-    final ProductListController _productController = Get.put(
-      ProductListController(),
-    );
-
-    if (_productController.productList.isEmpty) {
-      _productController.getAllProducts();
+    if (_newController.products.isEmpty) {
+      _newController.fetchProducts();
     }
 
     return SizedBox(
       height: 200,
-      child: GetBuilder<ProductListController>(
+      child: GetBuilder<ProductTypeController>(
+        init: _newController,
         builder: (controller) {
           if (controller.isInitialLoading) {
             return CenterCircularProgress();
           }
-
-          if (controller.productList.isEmpty) {
+          if (controller.products.isEmpty) {
             return Center(child: Text("No products found"));
           }
-
           return ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: controller.productList.length > 6
+            itemCount: controller.products.length > 6
                 ? 6
-                : controller.productList.length,
+                : controller.products.length,
             itemBuilder: (context, index) {
-              return ProductCard(productModel: controller.productList[index]);
+              return ProductCard(productModel: controller.products[index]);
             },
           );
         },
@@ -175,33 +207,28 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildSpecialProductList() {
-    final ProductListController _productController = Get.put(
-      ProductListController(),
-    );
-
-    if (_productController.productList.isEmpty) {
-      _productController.getAllProducts();
+    if (_specialController.products.isEmpty) {
+      _specialController.fetchProducts();
     }
 
     return SizedBox(
       height: 200,
-      child: GetBuilder<ProductListController>(
+      child: GetBuilder<ProductTypeController>(
+        init: _specialController,
         builder: (controller) {
           if (controller.isInitialLoading) {
             return CenterCircularProgress();
           }
-
-          if (controller.productList.isEmpty) {
+          if (controller.products.isEmpty) {
             return Center(child: Text("No products found"));
           }
-
           return ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: controller.productList.length > 6
+            itemCount: controller.products.length > 6
                 ? 6
-                : controller.productList.length,
+                : controller.products.length,
             itemBuilder: (context, index) {
-              return ProductCard(productModel: controller.productList[index]);
+              return ProductCard(productModel: controller.products[index]);
             },
           );
         },
@@ -210,34 +237,28 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildPopularProductList() {
-    final ProductListController _productController = Get.put(
-      ProductListController(),
-    );
-
-    // প্রথমবার fetch করার জন্য
-    if (_productController.productList.isEmpty) {
-      _productController.getAllProducts();
+    if (_popularController.products.isEmpty) {
+      _popularController.fetchProducts();
     }
 
     return SizedBox(
       height: 200,
-      child: GetBuilder<ProductListController>(
+      child: GetBuilder<ProductTypeController>(
+        init: _popularController,
         builder: (controller) {
           if (controller.isInitialLoading) {
             return CenterCircularProgress();
           }
-
-          if (controller.productList.isEmpty) {
+          if (controller.products.isEmpty) {
             return Center(child: Text("No products found"));
           }
-
           return ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: controller.productList.length > 6
+            itemCount: controller.products.length > 6
                 ? 6
-                : controller.productList.length,
+                : controller.products.length,
             itemBuilder: (context, index) {
-              return ProductCard(productModel: controller.productList[index]);
+              return ProductCard(productModel: controller.products[index]);
             },
           );
         },

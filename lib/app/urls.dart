@@ -16,4 +16,13 @@ class Urls {
 
   static String deleteCartUrl(String cartItemId) =>
       '$_baseUrl/cart/$cartItemId';
+
+  static String popularProducts(int pageNo, int pageSize) =>
+      '$_baseUrl/products?count=$pageSize&page=$pageNo&tag=popular';
+
+  static String specialProducts(int pageNo, int pageSize) =>
+      '$_baseUrl/products?count=$pageSize&page=$pageNo&tag=special';
+
+  static String newProducts(int pageNo, int pageSize) =>
+      '$_baseUrl/products?count=$pageSize&page=$pageNo&tag=new';
 }

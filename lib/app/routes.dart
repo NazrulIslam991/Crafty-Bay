@@ -5,6 +5,7 @@ import 'package:crafty_bay/features/auth/presentaion/screens/verify_otp_screen.d
 import 'package:crafty_bay/features/home/presentation/screens/home.dart';
 import 'package:crafty_bay/features/products/presentation/screens/product_details_screen.dart';
 import 'package:crafty_bay/features/products/presentation/screens/product_list_screen.dart';
+import 'package:crafty_bay/features/products/presentation/screens/product_types_list_screen.dart';
 import 'package:crafty_bay/features/shared/data/category_model.dart';
 import 'package:crafty_bay/features/shared/presentation/screen/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,9 @@ MaterialPageRoute onGenerateRoute(RouteSettings settings) {
   } else if (settings.name == ProductDetailsScreen.name) {
     final String productId = settings.arguments as String;
     screen = ProductDetailsScreen(productId: productId);
+  } else if (settings.name == ProductTypeListScreen.name) {
+    final String ProductType = settings.arguments as String;
+    screen = ProductTypeListScreen(productType: ProductType);
   }
 
   return MaterialPageRoute(builder: (ctx) => screen);
