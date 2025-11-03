@@ -32,7 +32,14 @@ class _CartsScreenState extends State<CartsScreen> {
         BackToCategoty();
       },
       child: Scaffold(
-        appBar: AppBar(title: Text("Cart")),
+        appBar: AppBar(
+          title: Text("Cart"),
+          leading: BackButton(
+            onPressed: () {
+              BackToCategoty();
+            },
+          ),
+        ),
         body: GetBuilder(
           init: _cartListController,
           builder: (controller) {
