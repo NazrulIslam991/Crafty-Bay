@@ -18,7 +18,6 @@ class _CartsScreenState extends State<CartsScreen> {
   final CartListController _cartListController = Get.find<CartListController>();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _cartListController.getCartList();

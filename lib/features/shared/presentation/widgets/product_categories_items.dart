@@ -37,7 +37,7 @@ class Product_Categories_Items extends StatelessWidget {
             ),
           ),
           Text(
-            categoryModel.title,
+            _getTitleText(categoryModel.title),
             style: Theme.of(
               context,
             ).textTheme.bodyLarge?.copyWith(color: AppColors.themeColor),
@@ -45,5 +45,12 @@ class Product_Categories_Items extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _getTitleText(String text) {
+    if (text.length < 10) {
+      return text;
+    }
+    return "${text.substring(0, 9)}..";
   }
 }

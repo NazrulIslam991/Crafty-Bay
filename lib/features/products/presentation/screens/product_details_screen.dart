@@ -9,6 +9,8 @@ import 'package:crafty_bay/features/shared/presentation/widgets/incre_decre_butt
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../wishlist/presentation/controller/add_wishlist_controller.dart';
+
 class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({super.key, required this.productId});
 
@@ -22,6 +24,8 @@ class ProductDetailsScreen extends StatefulWidget {
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   final ProductDetailsController _productDetailsController =
       ProductDetailsController();
+  final AddToWishlistController _wishlistController = AddToWishlistController();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -95,22 +99,68 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                             onPressed: () {},
                                             child: Text("Reviews"),
                                           ),
-                                          Card(
-                                            color: AppColors.themeColor,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(4),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(
-                                                2.0,
-                                              ),
-                                              child: Icon(
-                                                Icons.favorite_outline,
-                                                size: 24,
-                                                color: Colors.white,
-                                              ),
-                                            ),
+
+                                          /// Wishlist button
+                                          GetBuilder(
+                                            init: _wishlistController,
+                                            builder: (_) {
+                                              return Card(
+                                                color: AppColors.themeColor,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(4),
+                                                ),
+                                                child: InkWell(
+                                                  onTap: () async {
+                                                    if (await _toggleWishlist(
+                                                      controller
+                                                          .productDetails!
+                                                          .Id,
+                                                    )) {
+                                                      ScaffoldMessenger.of(
+                                                        context,
+                                                      ).showSnackBar(
+                                                        SnackBar(
+                                                          content: Text(
+                                                            _wishlistController
+                                                                    .isInWishlist
+                                                                ? "Added to wishlist"
+                                                                : "Removed from wishlist",
+                                                          ),
+                                                        ),
+                                                      );
+                                                    } else {
+                                                      ScaffoldMessenger.of(
+                                                        context,
+                                                      ).showSnackBar(
+                                                        SnackBar(
+                                                          content: Text(
+                                                            _wishlistController
+                                                                    .errorMessage ??
+                                                                "Something went wrong",
+                                                          ),
+                                                        ),
+                                                      );
+                                                    }
+                                                  },
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                          2.0,
+                                                        ),
+                                                    child: Icon(
+                                                      _wishlistController
+                                                              .isInWishlist
+                                                          ? Icons.favorite
+                                                          : Icons
+                                                                .favorite_outline,
+                                                      size: 24,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            },
                                           ),
                                         ],
                                       ),
@@ -187,5 +237,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         },
       ),
     );
+  }
+
+  Future<bool> _toggleWishlist(String productId) async {
+    return await _wishlistController.toggleWishlist(productId);
   }
 }

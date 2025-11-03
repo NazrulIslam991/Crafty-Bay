@@ -6,23 +6,22 @@ class Urls {
   static const String homeSliderUrl = '$_baseUrl/slides';
   static const String CartListUrl = '$_baseUrl/cart';
   static const String addToCartUrl = '$_baseUrl/cart';
+  static const String addToWListUrl = '$_baseUrl/wishlist';
+  static const String WListListUrl = '$_baseUrl/wishlist';
+  static String removeWishlist(String wishlistId) =>
+      '$_baseUrl/wishlist/$wishlistId';
   static String categoryList(int pageNo, int pageSize) =>
       '$_baseUrl/categories?count=$pageSize&page=$pageNo';
   static String productList(int pageNo, int pageSize, String categoryId) =>
       '$_baseUrl/products?count=$pageSize&page=$pageNo&category=$categoryId';
-
   static String prouctDetailsUrl(String productId) =>
       '$_baseUrl/products/id/$productId';
-
   static String deleteCartUrl(String cartItemId) =>
       '$_baseUrl/cart/$cartItemId';
-
   static String popularProducts(int pageNo, int pageSize) =>
       '$_baseUrl/products?count=$pageSize&page=$pageNo&tag=popular';
-
   static String specialProducts(int pageNo, int pageSize) =>
       '$_baseUrl/products?count=$pageSize&page=$pageNo&tag=special';
-
   static String newProducts(int pageNo, int pageSize) =>
       '$_baseUrl/products?count=$pageSize&page=$pageNo&tag=new';
 }

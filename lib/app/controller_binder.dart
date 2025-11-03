@@ -9,6 +9,8 @@ import 'package:crafty_bay/features/shared/presentation/controller/category_cont
 import 'package:crafty_bay/features/shared/presentation/controller/main_nav_controller.dart';
 import 'package:get/get.dart';
 
+import '../features/wishlist/presentation/controller/add_wishlist_controller.dart';
+import '../features/wishlist/presentation/controller/wish_list_controller.dart';
 import 'controller/auth_controller.dart';
 
 class ControllerBinding extends Bindings {
@@ -23,6 +25,8 @@ class ControllerBinding extends Bindings {
     Get.put(HomeSlideController());
     Get.put(CategoryController());
     Get.put(CartListController());
+    Get.put(AddToWishlistController());
+    Get.put(WishlistController());
     Get.put(ProductTypeController(tag: "popular"), tag: "popular");
     Get.put(ProductTypeController(tag: "new"), tag: "new");
     Get.put(ProductTypeController(tag: "special"), tag: "special");
