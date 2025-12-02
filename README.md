@@ -9,7 +9,6 @@ New users can register through this screen. It contains input fields for email, 
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/16532da1-86fc-4f67-96ca-479b53b38afe" width="250" />
-  <img src="https://github.com/user-attachments/assets/a3da91ae-4b69-9819-849f6a8482b2" width="250" />
   <img src="https://github.com/user-attachments/assets/3d3c43aa-4a09-45d3-8f03-d04bccb30e8a" width="250" />
 </p>
 
@@ -39,7 +38,7 @@ This screen presents a comprehensive view of all product categories in a grid la
 The payment screen allows users to finalize purchases. It includes organized tabs for Cards, Mobile Banking, and Net Banking. Local options like bKash and Rocket are prominently displayed. A large **PAY** button confirms the final transaction amount.
 
 <p align="center">
-    <img src="https://github.com/user-attachments/assets/c1cf0df6-e03a-4dd0-ae22-121b5cabe24b" width="600" />
+  <img src="https://github.com/user-attachments/assets/31bd52ae-8e88-4f0d-81f1-d3178291c03b" width="250" />
   <img src="https://github.com/user-attachments/assets/ddeedf39-e983-483e-8ba9-0e8f8894560a" width="250" />
   <img src="https://github.com/user-attachments/assets/4c680911-90c3-449f-9fb0-3743833d7cae" width="250" />
 </p>
