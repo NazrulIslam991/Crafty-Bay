@@ -22,8 +22,8 @@ The main landing page allows users to browse products and promotions. It display
 Products are organized into thematic sections such as New, Special, and Popular, each with a **See all** link. A scrollable category menu below the header provides quick navigation. Product cards display images, names, prices, ratings, and wishlist icons for easy browsing.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/17ae237d-964a-4da5-b34d-4d01f8e83593" width="300" />
-  <img src="https://github.com/user-attachments/assets/6a74ccce-f4ad-4a8e-a13f-2bb86e0c8e18" width="300" />
+  <img src="https://github.com/user-attachments/assets/17ae237d-964a-4da5-b34d-4d01f8e83593" width="250" />
+  <img src="https://github.com/user-attachments/assets/6a74ccce-f4ad-4a8e-a13f-2bb86e0c8e18" width="250" />
 </p>
 
 
@@ -33,7 +33,7 @@ Products are organized into thematic sections such as New, Special, and Popular,
 This screen presents a comprehensive view of all product categories in a grid layout, including Apple, Books, New Arrivals, Special, and Popular. The bottom navigation highlights the current Categories tab.Users can review and manage selected products. Each item displays its image, name, details (size/color), and price. Quantity controls (+/-) and a delete option are provided. The total price is displayed at the bottom with a **Checkout** button for proceeding to payment.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/ac84444f-dfbf-454f-a03d-4fa8fc6113a4" width="400" />
+  <img src="https://github.com/user-attachments/assets/ac84444f-dfbf-454f-a03d-4fa8fc6113a4" width="250" />
 </p>
 
 
@@ -51,11 +51,11 @@ The payment screen allows users to finalize purchases. It includes organized tab
 Users can manage their account information here. Quick access buttons provide navigation to Orders, Addresses, and Wishlist. The screen displays the user's full name, email, phone, and city. An **Update Profile** button allows editing, and links to Settings, Help & Support, and Privacy Policy are included.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/d846161c-a02b-4da6-a133-f4644790dabb" width="400" />
+  <img src="https://github.com/user-attachments/assets/d846161c-a02b-4da6-a133-f4644790dabb" width="250" />
 </p>
 ## Wishlist Screen
 This screen displays products saved for later purchase in a two-column grid format. Each product shows its title, price, and rating, along with a delete/remove icon. The bottom navigation highlights the Wishlist tab for easy access.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/789ac1ad-f526-4333-bbc7-c5df0ecaf800" width="400" />
+  <img src="https://github.com/user-attachments/assets/789ac1ad-f526-4333-bbc7-c5df0ecaf800" width="250" />
 </p>  
