@@ -9,6 +9,7 @@ New users can register through this screen. It contains input fields for email, 
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/16532da1-86fc-4f67-96ca-479b53b38afe" width="250" />
+  <img src="https://github.com/user-attachments/assets/6e232e06-a938-4441-bd3b-64dc59fb468d" width="250" />
   <img src="https://github.com/user-attachments/assets/3d3c43aa-4a09-45d3-8f03-d04bccb30e8a" width="250" />
 </p>
 
