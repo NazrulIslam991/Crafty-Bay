@@ -1,4 +1,6 @@
 # 🛍️ Crafty Bay E-commerce App
+Crafty Bay is a modern e-commerce mobile application built with Flutter. The app is fully powered by **REST API integration**, allowing real-time product browsing, user authentication, cart management, and order processing. It provides a seamless and intuitive shopping experience for Android and iOS users.
+
 
 ## Splash Screen
 This is the initial screen shown when the app loads, displaying the "Crafty Bay" logo and app name. A spinning loader indicates the app initialization, and the version number is shown as a placeholder.
