@@ -12,7 +12,6 @@ New users can register through this screen. It contains input fields for email, 
   <img src="https://github.com/user-attachments/assets/a3da91ae-4b69-9819-849f6a8482b2" width="250" />
   <img src="https://github.com/user-attachments/assets/3d3c43aa-4a09-45d3-8f03-d04bccb30e8a" width="250" />
 </p>
----
 
 
 
@@ -25,7 +24,6 @@ Products are organized into thematic sections such as New, Special, and Popular,
   <img src="https://github.com/user-attachments/assets/6a74ccce-f4ad-4a8e-a13f-2bb86e0c8e18" width="300" />
 </p>
 
----
 
 
 
@@ -36,7 +34,6 @@ This screen presents a comprehensive view of all product categories in a grid la
   <img src="https://github.com/user-attachments/assets/ac84444f-dfbf-454f-a03d-4fa8fc6113a4" width="400" />
 </p>
 
----
 
 ## Cart Sreen & Payment Gateway Screen
 The payment screen allows users to finalize purchases. It includes organized tabs for Cards, Mobile Banking, and Net Banking. Local options like bKash and Rocket are prominently displayed. A large **PAY** button confirms the final transaction amount.
@@ -47,7 +44,6 @@ The payment screen allows users to finalize purchases. It includes organized tab
   <img src="https://github.com/user-attachments/assets/4c680911-90c3-449f-9fb0-3743833d7cae" width="250" />
 </p>
 
----
 
 ## Profile Screen
 Users can manage their account information here. Quick access buttons provide navigation to Orders, Addresses, and Wishlist. The screen displays the user's full name, email, phone, and city. An **Update Profile** button allows editing, and links to Settings, Help & Support, and Privacy Policy are included.
@@ -55,7 +51,6 @@ Users can manage their account information here. Quick access buttons provide na
 <p align="center">
   <img src="https://github.com/user-attachments/assets/d846161c-a02b-4da6-a133-f4644790dabb" width="400" />
 </p>
----
 ## Wishlist Screen
 This screen displays products saved for later purchase in a two-column grid format. Each product shows its title, price, and rating, along with a delete/remove icon. The bottom navigation highlights the Wishlist tab for easy access.
 
